@@ -6,28 +6,28 @@ namespace example2
 {
     class Program
     {
-        public static string line = "";
+        public static string text = "";
         static void Main(string[] args)
         {
             Console.Write("Enter the path to *.txt file: \n");//убрать \n
             string path = "D:\\Projects\\example2\\File.txt"; //Console.ReadLine(path);
-            line = File.ReadAllText(path);
-            Console.WriteLine(line);
+            text = File.ReadAllText(path);
+            Console.WriteLine(text);
 
             Console.Write("\nEnter the word from text: ");
             string word = Console.ReadLine();
-            string startText = line;
+            string startText = text;
 
-            line = line.ToLower();
+            text = text.ToLower();
             word = word.ToLower();
-            string[] words = line.Split(' ', ',', '.');
-            int temp = 1;
+            string[] words = text.Split(' ', ',', '.');
+            int temp = 0;
 
             for (int i = 0; i < words.Length; i++)            
                 if (words[i] == word && words[i].Length == word.Length)                
                     temp++;         
                             
-            if (temp > 1)
+            if (temp >= 1)
             {
                 Console.WriteLine("word find");
                 Console.WriteLine($"the count of repetitions of the word '{word}' in the text: {temp}");
@@ -39,9 +39,9 @@ namespace example2
             string selection = "";
             while (selection != "0")
             {
-                line = startText;
+                text = startText;
                 Console.Clear();
-                Console.WriteLine(line);
+                Console.WriteLine(text);
                 Console.Write("\nMenu:\nCommands:\n f - find word\n r - replace word\n d - delete word\n 0 - exit" +
                     "\nEnter the command: ");
                 selection = Console.ReadLine();
@@ -73,7 +73,7 @@ namespace example2
             Console.WriteLine("f");
             Console.Write("Enter the word for find first and last index: ");
             string word = Console.ReadLine();
-            int index1 = line.IndexOf(word);
+            int index1 = text.IndexOf(word);
             Console.WriteLine("First value Index of {word} is " + index1);
             Function();
         }
@@ -85,15 +85,15 @@ namespace example2
             Console.Write("Enter the word for replace: ");
             string replaceWord = Console.ReadLine();
 
-            string[] words = line.Split(' ', ',', '.');
+            string[] words = text.Split(' ', ',', '.');
             int temp = 0;
             do
             {
                 for (int i = 0; i < words.Length; i++)
                     if (words[i] == word && words[i].Length == word.Length)
                     {
-                        line = line.Replace(word, replaceWord);
-                        Console.WriteLine(line);
+                        text = text.Replace(word, replaceWord);
+                        Console.WriteLine(text);
                     }
                     else
                     {
@@ -110,8 +110,8 @@ namespace example2
             Console.WriteLine("d");
             Console.Write("Enter the word for deleted: ");
             string word = Console.ReadLine();
-            line = line.Replace($" {word}", "");
-            Console.WriteLine(line);
+            text = text.Replace($" {word}", "");
+            Console.WriteLine(text);
             Function();
         }
         static void Function()
