@@ -20,7 +20,7 @@ namespace example2
 
             text = text.ToLower();
             word = word.ToLower();
-            string[] words = text.Split(' ', ',', '.');
+            string[] words = text.Split(' ', ',', '.');//почему то начал считать ентеры за пробелы и за символы
             int temp = 0;
 
             for (int i = 0; i < words.Length; i++)            
@@ -36,10 +36,10 @@ namespace example2
                 Console.WriteLine("not find word");
 
             Function();
+            text = startText;
             string selection = "";
             while (selection != "0")
             {
-                text = startText;
                 Console.Clear();
                 Console.WriteLine(text);
                 Console.Write("\nMenu:\nCommands:\n f - find word\n r - replace word\n d - delete word\n 0 - exit" +
@@ -77,7 +77,7 @@ namespace example2
             Console.WriteLine("First value Index of {word} is " + index1);
             Function();
         }
-        static void ReplaceWord()//Любого регистра?
+        static void ReplaceWord()//Любого регистра? все вхождения или одно?
         {
             Console.WriteLine("r");
             Console.Write("Enter the word to be replaced: ");
@@ -85,24 +85,30 @@ namespace example2
             Console.Write("Enter the word for replace: ");
             string replaceWord = Console.ReadLine();
 
-            string[] words = text.Split(' ', ',', '.');
-            int temp = 0;
-            do
-            {
-                for (int i = 0; i < words.Length; i++)
-                    if (words[i] == word && words[i].Length == word.Length)
-                    {
-                        text = text.Replace(word, replaceWord);
-                        Console.WriteLine(text);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Enter not correct word.");
-                        break;
-                    }
-                temp++;
-            } while (temp < 1);
+            //string[] words = text.Split(' ', ',', '.');
+            //int temp = 0;
+            //do
+            //{
+            //    for (int i = 0; i < words.Length; i++)
+            //        if (words[i] == word && words[i].Length == word.Length)
+            //        {
+            //            text = text.Replace(word, replaceWord);
+            //            Console.WriteLine(text);
+            //        }
+            //        else
+            //        {
+            //            Console.WriteLine("Entered not correct word.");
+            //            break;
+            //        }
+            //    temp++;
+            //} while (temp < 1);
 
+            if (word == null || replaceWord == null || word == "" || replaceWord == "")
+            {
+                Console.WriteLine("Please write correct word.");
+            }
+            else
+                CheckFunction(word, replaceWord);
             Function();
         }
         static void DeleteWord()
@@ -110,14 +116,42 @@ namespace example2
             Console.WriteLine("d");
             Console.Write("Enter the word for deleted: ");
             string word = Console.ReadLine();
-            text = text.Replace($" {word}", "");
-            Console.WriteLine(text);
+            //text = text.Replace($" {word}", "");
+            //Console.WriteLine(text);
+
+            if (word == null || word == "")
+            {
+                Console.WriteLine("Please write correct word.");
+            }
+            else
+                CheckFunction(word, "");
             Function();
         }
         static void Function()
         {
             Console.WriteLine("\nEnter any button.");
             Console.ReadKey();
+        }
+        static void CheckFunction(string firstWord, string secondWord)
+        {
+            string[] words = text.Split(' ', ',', '.');
+            int temp = 0;
+            do
+            {
+                for (int i = 0; i < words.Length; i++) {
+                    if (words[i] == firstWord && words[i].Length == firstWord.Length)
+                    {
+                        text = text.Replace(firstWord, secondWord);
+                        Console.WriteLine(text);
+                    }
+                    else if (words.Length - 1 == i)
+                    {
+                        Console.WriteLine("Entered not correct word.");
+                        break;
+                    }
+                }
+                temp++;
+            } while (temp < 1);
         }
     }
 }
