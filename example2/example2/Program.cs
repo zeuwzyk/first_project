@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace example2
@@ -7,25 +6,36 @@ namespace example2
     class Program
     {
         public static string text = "";
-        static void Main(string[] args)
-        {       
+        static void Main()
+        {
             string selection = "";
             while (selection != "0")
             {
                 Console.Clear();
-                Console.Write("Enter the path to *.txt file: \n");//убрать \n
-                string path = "D:\\Projects\\example2\\File.txt"; //Console.ReadLine(path);
-                text = File.ReadAllText(path);
-                Console.WriteLine(text);
 
-                Console.Write("\nEnter the word from text: ");
+                Console.Write("Open file? Enter 'y' or 'n' or '0' for exit: ");
+                string change = Console.ReadLine();
+                if (change == "y")
+                    FilePath();
+                else if (change == "n")
+                {
+                    Console.WriteLine(text);
+                    if (text == "" || text == null)
+                        continue;
+                }
+                else if (change == "0")
+                    break;
+                else
+                    continue;
+
+                Console.Write("\nMenu:\nCommands:\n f - find word\n r - replace word\n d - delete word\n 0 - exit\n");
+                Console.Write("\nEnter the word from text for command: ");
                 string word = Console.ReadLine();
 
                 text = text.ToLower();
                 word = word.ToLower();
 
-                Console.Write("\nMenu:\nCommands:\n f - find word\n r - replace word\n d - delete word\n 0 - exit" +
-                    "\nEnter the command: ");
+                Console.Write("\nEnter the command: ");
                 selection = Console.ReadLine();
                 switch (selection)
                 {
@@ -44,17 +54,18 @@ namespace example2
                         Environment.Exit(1);
                         break;
                     default:
-                        Console.WriteLine("Error. Entred not correct symbol");
+                        Console.WriteLine("Error. Not correct symbol was entered.");
                         Function();
                         break;
                 }
-            } 
+            }
         }
         static void FindWord(string word)
         {
             Console.WriteLine("\nf");
             string[] words = text.Split(' ', ',', '.');
             int temp = 0;
+            int index1 = text.IndexOf(word);
 
             for (int i = 0; i < words.Length; i++)
                 if (words[i] == word && words[i].Length == word.Length)
@@ -62,15 +73,13 @@ namespace example2
 
             if (temp >= 1)
             {
-                Console.WriteLine("word find");
-                Console.WriteLine($"the count of repetitions of the word '{word}' in the text: {temp}");
+                Console.WriteLine("Word is find");
+                Console.WriteLine($"The count of repetitions of the word '{word}' in the text: {temp}");
+                Console.WriteLine($"First value Index of {word} is " + index1);
             }
             else
-                Console.WriteLine("not find word");
+                Console.WriteLine("Word is not find.");
 
-
-            int index1 = text.IndexOf(word);
-            Console.WriteLine($"First value Index of {word} is " + index1);
             Function();
         }
         static void ReplaceWord(string word)
@@ -93,7 +102,7 @@ namespace example2
 
             if (word == null || word == "")
             {
-                Console.WriteLine("Please write correct word.");
+                Console.WriteLine("Please, write correct word.");
             }
             else
                 CheckFunction(word, "");
@@ -104,7 +113,7 @@ namespace example2
             Console.WriteLine("\nEnter any button.");
             Console.ReadKey();
         }
-        static void CheckFunction(string FirstWord, string SecondWord)
+        static void CheckFunction(string firstWord, string secondWord)
         {
             string[] words = text.Split(' ', ',', '.');
             int temp = 0;
@@ -112,19 +121,46 @@ namespace example2
             {
                 for (int i = 0; i < words.Length; i++)
                 {
-                    if (words[i] == FirstWord && words[i].Length == FirstWord.Length)
-                        text = text.Replace(FirstWord, SecondWord);
+                    if (words[i] == firstWord && words[i].Length == firstWord.Length)
+                    {
+                        text = text.Replace(firstWord, secondWord);
+                        Console.WriteLine(text);
+                    }
                     else if (words.Length - 1 == i)
                     {
-                        Console.WriteLine("Entered not correct word.");
+                        Console.WriteLine("Not correct start word was entered.");
                         break;
                     }
                 }
-                Console.WriteLine(text);
                 temp++;
             } while (temp < 1);
+        }
+        static void FilePath()
+        {
+            text = "";
+            Console.Write("Enter the path to *.txt file (only english text): ");
+            string path = Console.ReadLine(); //"D:\\Projects\\example2\\File.txt"; E:\VS\first_project-example\example2\text.txt
 
+            try
+            {
+                using (StreamReader reader = new StreamReader(path))
+                {
+                    text = reader.ReadToEnd();
+                }
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.Message);
+            }
+            Console.WriteLine(text);
         }
     }
 }
-
+/*
+            text = "";
+            Console.Write("Enter the path to *.txt file (only english text): \n");//убрать \n
+            string path = Console.ReadLine(); //"E:\\VS\\first_project-example\\example2\\File.txt";//"D:\\Projects\\example2\\File.txt"; //Console.ReadLine(path);E:\VS\first_project-example\example2\text.txt
+            if (File.ReadAllText(path)!=)
+            text = File.ReadAllText(path);
+            Console.WriteLine(text);
+*/
