@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Text.Json;
 
 namespace example3
 {
@@ -50,20 +52,21 @@ namespace example3
             Console.WriteLine("\nEnter data:\n");
             do
             {
-                Console.Write("Enter name: ");//check only string
+                Console.Write("Enter name: ");
                 string name = Console.ReadLine();
                 if (name == "")
                     Console.WriteLine("Not correct.");
                 for (int i = 0; i < name.Length; i++)
                     if (char.IsLetter(name[i]))
-                        continue;//temp++;
+                        continue;
                     else
                     {
-                        Console.WriteLine("Error.");//сделать обрыв
+                        Console.WriteLine("Error.");
                         temp--;
+                        break;
                     }
-                temp++;
-                /////////////////////////////////////////////////////////////////////
+                temp++;               
+
                 int age;
                 Console.Write("Enter age: ");//check only int 18-99
                 string ageString = Console.ReadLine();
@@ -75,7 +78,6 @@ namespace example3
                 else
                     Console.WriteLine("Error.");
 
-                /////////////////////////////////////////////////////////////////////
                 Console.Write("Enter car (BMW, Volkswagen, Skoda): ");//enum
                 string theCar = Console.ReadLine();
                 string carCar = "";
@@ -103,7 +105,22 @@ namespace example3
                     Console.WriteLine("Error.");
 
                 Console.Write($"\nname: {name}; age: {age}; car: {carCar}");
+
                 //запись в файл
+                //List<data> _data = new List<data>();
+                //_data.Add(new data()
+                //{
+                //    Id = 1,
+                //    SSN = 2,
+                //    Message = "A Message"
+                //});
+
+                //using (StreamWriter file = File.CreateText(@"D:\path.txt"))
+                //{
+                //    //JsonSerializer serializer = new JsonSerializer();
+                //    //serialize object directly into file stream
+                //    JsonSerializer.Serialize(file, name);
+                //}
                 Function();
             } while (temp != 3);
         }
