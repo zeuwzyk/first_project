@@ -16,7 +16,11 @@ namespace example2
                 Console.Write("Open file? Enter 'y' or 'n' or '0' for exit: ");
                 string change = Console.ReadLine();
                 if (change == "y")
+                {
                     FilePath();
+                    if (text == "" || text == null)//D:\Projects\example2\text.txt //D:\Projects\example2\File.txt";
+                        continue;
+                }
                 else if (change == "n")
                 {
                     Console.WriteLine(text);
@@ -26,7 +30,11 @@ namespace example2
                 else if (change == "0")
                     break;
                 else
+                {
+                    Console.WriteLine("Error. Not correct symbol was entered.");
+                    Function();
                     continue;
+                }
 
                 Console.Write("\nMenu:\nCommands:\n f - find word\n r - replace word\n d - delete word\n 0 - exit\n");
                 Console.Write("\nEnter the word from text for command: ");
@@ -62,7 +70,7 @@ namespace example2
         }
         static void FindWord(string word)
         {
-            Console.WriteLine("\nf");
+            Console.WriteLine("\nFind word.");
             string[] words = text.Split(' ', ',', '.');
             int temp = 0;
             int index1 = text.IndexOf(word);
@@ -84,26 +92,22 @@ namespace example2
         }
         static void ReplaceWord(string word)
         {
-            Console.WriteLine("\nr");
+            Console.WriteLine("\nReplace word.");
             Console.Write("Enter the word for replace: ");
             string replaceWord = Console.ReadLine();
 
             if (word == null || replaceWord == null || word == "" || replaceWord == "")
-            {
                 Console.WriteLine("Please write correct word.");
-            }
             else
                 CheckFunction(word, replaceWord);
             Function();
         }
         static void DeleteWord(string word)
         {
-            Console.WriteLine("\nd");
+            Console.WriteLine("\nDelete word.");
 
             if (word == null || word == "")
-            {
                 Console.WriteLine("Please, write correct word.");
-            }
             else
                 CheckFunction(word, "");
             Function();
@@ -137,9 +141,8 @@ namespace example2
         }
         static void FilePath()
         {
-            text = "";
             Console.Write("Enter the path to *.txt file (only english text): ");
-            string path = Console.ReadLine(); //"D:\\Projects\\example2\\File.txt"; E:\VS\first_project-example\example2\text.txt
+            string path = Console.ReadLine(); 
 
             try
             {
@@ -156,11 +159,3 @@ namespace example2
         }
     }
 }
-/*
-            text = "";
-            Console.Write("Enter the path to *.txt file (only english text): \n");//убрать \n
-            string path = Console.ReadLine(); //"E:\\VS\\first_project-example\\example2\\File.txt";//"D:\\Projects\\example2\\File.txt"; //Console.ReadLine(path);E:\VS\first_project-example\example2\text.txt
-            if (File.ReadAllText(path)!=)
-            text = File.ReadAllText(path);
-            Console.WriteLine(text);
-*/
