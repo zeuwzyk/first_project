@@ -5,92 +5,109 @@ namespace example2
 {
     class Program
     {
-        public static string text = "";
         static void Main()
         {
+            string text = "";
             string selection = "";
             while (selection != "0")
             {
-                Console.Clear();
+                while (text == "")
+                    text = SecondMenu(text);
+                             
+                Console.Write("\nMenu:\nCommands:\n f - find word\n r - replace word\n " +
+                    "d - delete word\n s - second menu\n 0 - exit\n");
+                Console.Write("\nEnter the command: ");
+                selection = Console.ReadLine();
 
-                Console.Write("Open file? Enter 'y' or 'n' or '0' for exit: ");
-                string change = Console.ReadLine();
-                if (change == "y")
-                {
-                    FilePath();
-                    if (text == "" || text == null)//D:\Projects\example2\text.txt //D:\Projects\example2\File.txt";
-                        continue;
-                }
-                else if (change == "n")
-                {
-                    Console.WriteLine(text);
-                    if (text == "" || text == null)
-                        continue;
-                }
-                else if (change == "0")
-                    break;
-                else
-                {
-                    Console.WriteLine("Error. Not correct symbol was entered.");
-                    Function();
-                    continue;
-                }
-
-                Console.Write("\nMenu:\nCommands:\n f - find word\n r - replace word\n d - delete word\n 0 - exit\n");
-                Console.Write("\nEnter the word from text for command: ");
+                Console.Write("Enter the word from text for command: ");
                 string word = Console.ReadLine();
 
                 text = text.ToLower();
                 word = word.ToLower();
 
-                Console.Write("\nEnter the command: ");
-                selection = Console.ReadLine();
                 switch (selection)
                 {
                     case "f":
-                        FindWord(word);
+                        FindWord(word, text);
                         break;
                     case "r":
-                        ReplaceWord(word);
+                        text = ReplaceWord(word, text);
+                        ChangeOpenFileHelper(text);
                         break;
                     case "d":
-                        DeleteWord(word);
+                        text = DeleteWord(word, text);
+                        ChangeOpenFileHelper(text);
+                        break;
+                    case "s"://**/******
+                        text = SecondMenu(text);
                         break;
                     case "0":
                         Console.WriteLine("Exit.");
-                        Function();
+                        ShowMessage();
                         Environment.Exit(1);
                         break;
                     default:
                         Console.WriteLine("Error. Not correct symbol was entered.");
-                        Function();
+                        ShowMessage();
                         break;
                 }
             }
         }
-        static void FindWord(string word)
+        static string SecondMenu(string text)
+        {
+            Console.Write("Open file? Enter 'y' or 'n' or '0' for exit: ");
+            string changeOpenFile = Console.ReadLine();
+            switch (changeOpenFile)
+            {
+                case "y":
+                    text = EnterFilePath(text, "start");
+                    if (text == "" || text == null)//D:\Projects\example2\text.txt //D:\Projects\example2\File.txt";
+                    {
+                        Console.WriteLine("No text for work. Please enter path for file.");
+                        break;
+                    }
+                    ChangeOpenFileHelper(text);
+                    break;
+                case "n":
+                    if (text == "")
+                        Console.WriteLine("No text for work.");
+                    else
+                        Console.WriteLine("Continue work with information.");
+                    ChangeOpenFileHelper(text);
+                    break;
+                case "0":
+                    Console.WriteLine("Exit.");
+                    Environment.Exit(1);
+                    break;
+                default:
+                    Console.WriteLine("Error. Not correct symbol was entered. Please enter path for file.");
+                    ShowMessage();
+                    break;
+            }
+            return text;
+        }
+        static void FindWord(string word, string text)
         {
             Console.WriteLine("\nFind word.");
             string[] words = text.Split(' ', ',', '.');
-            int temp = 0;
+            int wordCount = 0;
             int index1 = text.IndexOf(word);
 
             for (int i = 0; i < words.Length; i++)
                 if (words[i] == word && words[i].Length == word.Length)
-                    temp++;
+                    wordCount++;
 
-            if (temp >= 1)
+            if (wordCount >= 1)
             {
                 Console.WriteLine("Word is find");
-                Console.WriteLine($"The count of repetitions of the word '{word}' in the text: {temp}");
+                Console.WriteLine($"The count of repetitions of the word '{word}' in the text: {wordCount}");
                 Console.WriteLine($"First value Index of {word} is " + index1);
             }
             else
                 Console.WriteLine("Word is not find.");
-
-            Function();
+            ShowMessage();
         }
-        static void ReplaceWord(string word)
+        static string ReplaceWord(string word, string text)
         {
             Console.WriteLine("\nReplace word.");
             Console.Write("Enter the word for replace: ");
@@ -99,25 +116,26 @@ namespace example2
             if (word == null || replaceWord == null || word == "" || replaceWord == "")
                 Console.WriteLine("Please write correct word.");
             else
-                CheckFunction(word, replaceWord);
-            Function();
+                text = CheckFunction(word, replaceWord, text);
+            return text;
         }
-        static void DeleteWord(string word)
+        static string DeleteWord(string word, string text)
         {
             Console.WriteLine("\nDelete word.");
 
             if (word == null || word == "")
                 Console.WriteLine("Please, write correct word.");
             else
-                CheckFunction(word, "");
-            Function();
+                text = CheckFunction(word, "", text);
+            ShowMessage();
+            return text;
         }
-        static void Function()
+        static void ShowMessage()
         {
             Console.WriteLine("\nEnter any button.");
             Console.ReadKey();
         }
-        static void CheckFunction(string firstWord, string secondWord)
+        static string CheckFunction(string firstWord, string secondWord, string text)
         {
             string[] words = text.Split(' ', ',', '.');
             int temp = 0;
@@ -126,11 +144,8 @@ namespace example2
                 for (int i = 0; i < words.Length; i++)
                 {
                     if (words[i] == firstWord && words[i].Length == firstWord.Length)
-                    {
                         text = text.Replace(firstWord, secondWord);
-                        Console.WriteLine(text);
-                    }
-                    else if (words.Length - 1 == i)
+                    else if (words.Length - 1 == i)//выскакивает=<
                     {
                         Console.WriteLine("Not correct start word was entered.");
                         break;
@@ -138,12 +153,10 @@ namespace example2
                 }
                 temp++;
             } while (temp < 1);
+            return text;
         }
-        static void FilePath()
+        static string FilePath1(string text, string path)//переименовать
         {
-            Console.Write("Enter the path to *.txt file (only english text): ");
-            string path = Console.ReadLine(); 
-
             try
             {
                 using (StreamReader reader = new StreamReader(path))
@@ -153,9 +166,126 @@ namespace example2
             }
             catch (Exception exp)
             {
-                Console.WriteLine(exp.Message);
+                Console.WriteLine("Not correct path was entered.");
             }
             Console.WriteLine(text);
+            return text;
+        }
+        static string EnterFilePath(string text, string path) 
+        {
+            string check = path;
+            Console.Write("Enter the path to *.txt file (only english text): ");
+            //string path = Console.ReadLine(); 
+            path = @"D:\Projects\example2\f.txt";//новый файл или оставить как есть??
+            text = FilePath1(text, path);
+
+            if (check == "start")
+                return text;
+            else 
+                return path;
+        }
+        static void ChangeOpenFileHelper(string text)
+        {
+            Console.Write("Do you want /work with file/(y/n): ");
+            string changeWorkWithFile = Console.ReadLine();
+            if (changeWorkWithFile == "y")
+                FileHelper(text,"");
+            else if (changeWorkWithFile == "n")
+                Console.WriteLine("No.");
+            else
+            {
+                Console.WriteLine("Error. Not correct symbol was entered.");
+            }
+        }
+        static void FileHelper(string text, string path)
+        {           
+            string selection = ""; 
+            while (selection != "q")
+            {
+                Console.Write("\nMenu for file work:\nCommands:\n v - view text from file\n r - record text in file\n " +
+               "rw - rerecord text in file\n d - delete text from file or file\n c - create new file" +
+               "\n q - exit from menu\n 0 - exit from program\n");
+                Console.Write("Enter the command: ");
+                selection = Console.ReadLine();
+                switch (selection)
+                {
+                    case "v":
+                        Console.WriteLine("View text.");
+                        if (text == "" || text == null)//D:\Projects\example2\text.txt //D:\Projects\example2\File.txt";
+                            Console.WriteLine("No text for work. Please enter path for file.");
+                        else
+                            Console.WriteLine(text);
+                        break;
+
+                    case "r":
+                        Console.Write("Record NEW TEXT (not replaced/deleted word at text) in end file(1) or record all file(2)?\nHow do you want record? (1/2): ");
+                        string changeRecordMenu = Console.ReadLine();
+                        path = EnterFilePath(text, "FileHelper");
+
+                        if (changeRecordMenu == "1")
+                        {
+                            Console.Write("In end file.\nEnter text: ");
+                            string textForFile = Console.ReadLine();
+
+                            File.AppendAllText(path, $"{textForFile} ");
+                        }
+                        else if (changeRecordMenu == "2")
+                        {
+                            Console.Write("All file.\nEnter text: ");
+                            string textForFile = Console.ReadLine();
+                            File.WriteAllText(path, $"{textForFile} ");
+                        }
+                        else
+                            Console.WriteLine("Not correct symbol was entered.");
+                        break;
+
+                    case "rw":
+                        Console.WriteLine("Rerecord text from file.");
+                        path = EnterFilePath(text, "FileHelper");
+
+                        if (text == "" || text == null)//D:\Projects\example2\text.txt //D:\Projects\example2\File.txt";
+                        {
+                            Console.WriteLine("No text for work. Please enter path for file.");
+                            ShowMessage();
+                        }
+                        else
+                            File.WriteAllText(path, $"{text} ");
+                        break;
+
+                    case "d":
+                        Console.Write("Delete text from file(1) or file(2)?\nWhat do you want delete? (1/2): ");
+                        string changeDeleteMenu = Console.ReadLine();
+                        path = EnterFilePath(text, "FileHelper");
+
+                        if (changeDeleteMenu == "1")
+                            File.WriteAllText(path, "");
+                        else if (changeDeleteMenu == "2")
+                            File.Delete(path);
+                        break;
+
+                    case "c":
+                        Console.Write("Create new file.\nEnter file name: ");
+                        string nameFile = Console.ReadLine();
+                        nameFile += ".txt";
+                        nameFile = "D:\\Projects\\example2\\" + nameFile;
+                        File.Create(nameFile);
+                        break;
+
+                    case "0":
+                        Console.WriteLine("Exit.");
+                        ShowMessage();
+                        Environment.Exit(1);
+                        break;
+                    case "q":
+                        Console.WriteLine("Exit from menu.");
+                        break;
+
+                    default:
+                        Console.WriteLine("Error. Not correct symbol was entered.");
+                        ShowMessage();
+                        break;
+                }
+            }
         }
     }
 }
