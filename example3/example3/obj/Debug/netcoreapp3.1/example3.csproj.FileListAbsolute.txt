@@ -1,0 +1,14 @@
+D:\Projects\example3\example3\obj\Debug\netcoreapp3.1\example3.csproj.AssemblyReference.cache
+D:\Projects\example3\example3\obj\Debug\netcoreapp3.1\example3.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\example3\example3\obj\Debug\netcoreapp3.1\example3.AssemblyInfoInputs.cache
+D:\Projects\example3\example3\obj\Debug\netcoreapp3.1\example3.AssemblyInfo.cs
+D:\Projects\example3\example3\obj\Debug\netcoreapp3.1\example3.csproj.CoreCompileInputs.cache
+D:\Projects\example3\example3\bin\Debug\netcoreapp3.1\example3.exe
+D:\Projects\example3\example3\bin\Debug\netcoreapp3.1\example3.deps.json
+D:\Projects\example3\example3\bin\Debug\netcoreapp3.1\example3.runtimeconfig.json
+D:\Projects\example3\example3\bin\Debug\netcoreapp3.1\example3.runtimeconfig.dev.json
+D:\Projects\example3\example3\bin\Debug\netcoreapp3.1\example3.dll
+D:\Projects\example3\example3\bin\Debug\netcoreapp3.1\example3.pdb
+D:\Projects\example3\example3\obj\Debug\netcoreapp3.1\example3.dll
+D:\Projects\example3\example3\obj\Debug\netcoreapp3.1\example3.pdb
+D:\Projects\example3\example3\obj\Debug\netcoreapp3.1\example3.genruntimeconfig.cache
